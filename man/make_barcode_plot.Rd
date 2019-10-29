@@ -4,7 +4,8 @@
 \alias{make_barcode_plot}
 \title{Make DNA Barcode Plot}
 \usage{
-make_barcode_plot(sequences, species_sub, trim = FALSE)
+make_barcode_plot(sequences, species_sub, trim = FALSE,
+  consensus = FALSE)
 }
 \arguments{
 \item{sequences}{DNAStringSet cnotaining sequences to be aligned and plotted.
@@ -15,6 +16,8 @@ Must match `rownames(sequences)`}
 
 \item{trim}{logical, should leading or trailing gaps be trimmed?
 All sequences will be trimmed equally}
+
+\item{consensus}{logical, should a concensus sequence track be calculated and plotted?}
 }
 \value{
 A ggplot containing a DNA barcode plot

@@ -4,13 +4,15 @@
 \alias{make_dna_vectors}
 \title{Make table of DNA sequence for graphing}
 \usage{
-make_dna_vectors(seqs, trim = FALSE)
+make_dna_vectors(seqs, trim = FALSE, consensus = FALSE)
 }
 \arguments{
 \item{seqs}{DNAStringSet containing sequences to align}
 
 \item{trim}{logical, should leading or trailing gaps be trimmed?
 All sequences will be trimmed equally}
+
+\item{consensus}{logical, should a concensus sequence track be calculated?}
 }
 \value{
 A data.frame in long-format, with 1 row per sequence and base
