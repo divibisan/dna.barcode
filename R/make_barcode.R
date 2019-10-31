@@ -6,8 +6,8 @@
 #' @importFrom magrittr %>%
 #' @return A data.frame in long-format, with 1 row per sequence and base
 make_dna_vectors <- function(seqs, trim = FALSE, consensus = FALSE) {
-  align <- msa(seqs, method = 'Muscle')
-  align_list = msaConvert(align, type = "bios2mds::align")
+  align <- msa::msa(seqs, method = 'Muscle')
+  align_list = msa::msaConvert(align, type = "bios2mds::align")
 
   if (consensus) {
     cons <- msa::msaConsensusSequence(align) %>%
@@ -24,9 +24,9 @@ make_dna_vectors <- function(seqs, trim = FALSE, consensus = FALSE) {
 
   lapply(align_list, function(s) {
     data.frame(base = s) %>%
-      rowid_to_column()
+      tibble::rowid_to_column()
   }) %>% `names<-`(names(align_list)) %>%
-    bind_rows(.id = 'species')
+    dplyr::bind_rows(.id = 'species')
 }
 
 #' Make DNA Barcode Plot
@@ -39,11 +39,14 @@ make_dna_vectors <- function(seqs, trim = FALSE, consensus = FALSE) {
 #' @param consensus logical, should a concensus sequence track be calculated and plotted?
 #' @return A ggplot containing a DNA barcode plot
 #' @importFrom magrittr %>%
+#' @import ggplot2
 #' @export
 make_barcode_plot <- function(sequences, species_sub, trim = FALSE, consensus = FALSE) {
-  dna_vectors <- make_dna_vectors(sequences[species_sub,], trim, consensus = consensus) %>%
-    mutate(species = factor(species,
-                            levels = c(rev(species_sub), if (consensus) 'Consensus')))
+  dna_vectors <- dna.barcode::make_dna_vectors(sequences[species_sub,],
+                                               trim,
+                                               consensus = consensus) %>%
+    dplyr::mutate(species = factor(species,
+                                   levels = c(rev(species_sub), if (consensus) 'Consensus')))
 
   ggplot(dna_vectors, aes(x = rowid, y = species, fill = base)) +
     geom_tile(height = 0.9) +

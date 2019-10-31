@@ -1,7 +1,7 @@
 Package: dna.barcode
 Type: Package
 Title: Make DNA Barcode Figures
-Version: 1.0.5
+Version: 1.0.6
 Author: Authors@R: person("divibisan",
   role = c("aut", "cre"))
 Description: Takes FASTA sequences and generates DNA Barcode figures.
