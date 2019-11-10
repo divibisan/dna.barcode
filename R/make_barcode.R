@@ -5,9 +5,15 @@
 #' @param consensus logical, should a concensus sequence track be calculated?
 #' @importFrom magrittr %>%
 #' @return A data.frame in long-format, with 1 row per sequence and base
+#' @export
 make_dna_vectors <- function(seqs, trim = FALSE, consensus = FALSE) {
-  align <- msa::msa(seqs, method = 'Muscle')
-  align_list = msa::msaConvert(align, type = "bios2mds::align")
+  if (length(seqs) > 1) {
+    align <- msa::msa(seqs, method = 'Muscle')
+    align_list = msa::msaConvert(align, type = "bios2mds::align")
+  } else if (length(seqs) == 1) {
+    align_list = stringr::str_split(seqs, '')
+    names(align_list) <- names(seqs)
+  }
 
   if (consensus) {
     cons <- msa::msaConsensusSequence(align) %>%
